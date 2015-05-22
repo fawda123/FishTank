@@ -7,8 +7,19 @@ shinyUI(fluidPage(
   theme = 'styles.css',
   
   # Application title
-  headerPanel("FishTank"), 
+
+  fluidRow(
     
+    column(width = 1, offset = 0,
+      img(src = "icon.png", height = 70, width = 70)
+    ),
+    
+    column(width = 6, 
+      h1('FishTank')
+    )
+    
+  ),
+  
   # Sidebar with a slider input for number of observations
   sidebarPanel(
     
