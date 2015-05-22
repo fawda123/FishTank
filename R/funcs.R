@@ -274,21 +274,22 @@ data_format <- function(sc_in1, sc_in2, ...){
 # the plotting function
 # varsel is input name, all dat is input data
 plo_fun <- function(varsel, alldat){
-  
+
   varsel <- labels_fun()$shrt[labels_fun()$lngs %in% varsel]
   toplo <- filter(alldat, alldat$state %in% varsel) 
-
+  
   ylab <- expr_fun(varsel)
   
-  # plot
-  p <- ggplot(toplo, aes(x = step, y = val, group = scenario, colour = scenario)) + 
-    geom_line() +
-    theme_bw() + 
-    scale_x_continuous('Days') + 
-    scale_y_continuous(ylab)
-  
-  return(p)
-  
+  # make xts
+  toplo <- select(toplo, -state)
+  toplo <- spread(toplo, scenario, val)
+  toplo <- as.matrix(toplo[, -1])
+  toplo <- as.xts(toplo, order.by = as.Date(1:nrow(toplo), origin = '2000-01-01'))
+
+  dygraph(toplo, ylab = ylab, group = 'group') %>% 
+      dyRangeSelector
+    
+
 }
 
 # formatting the labels from labels_fun as expressions for plots
@@ -297,10 +298,10 @@ expr_fun <- function(lab_in){
   sel <- which(labels_fun()$shrt == lab_in)
   val <- labels_fun()$vals[sel]
   
-  if(grepl('-', val)){
-    val <- strsplit(val, '-')[[1]]
-    val <- bquote(.(val[1]) ^ .(paste0('-', val[2])))
-  }
+#   if(grepl('-', val)){
+#     val <- strsplit(val, '-')[[1]]
+#     val <- bquote(.(val[1]) ^ .(paste0('-', val[2])))
+#   }
     
   return(val)
    

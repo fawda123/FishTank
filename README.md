@@ -8,6 +8,4 @@
 * fancy color scheme
 * Descriptive text for each scenario
 * tabs for initial files
-* ggvis plots instead?
-* single legend
 * EPA logo?

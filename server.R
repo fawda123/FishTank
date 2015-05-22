@@ -3,6 +3,8 @@ source('R/funcs.R')
 library(reshape)
 library(ggplot2)
 library(dplyr)
+library(tidyr)
+library(dygraphs)
 
 # Define server logic required to generate and plot data
 shinyServer(function(input, output) {
@@ -26,7 +28,7 @@ shinyServer(function(input, output) {
   })
     
   # first variable plot
-  output$var1plot <- renderPlot({
+  output$var1plot <- renderDygraph({
      
     alldat <- runmod()
     
@@ -34,10 +36,10 @@ shinyServer(function(input, output) {
     varsel <- input$var1
     plo_fun(varsel, alldat)
     
-    }, height = 300, width = 600)
+    })
 
   # second variable plot
-  output$var2plot <- renderPlot({
+  output$var2plot <- renderDygraph({
      
     alldat <- runmod()
     
@@ -45,10 +47,10 @@ shinyServer(function(input, output) {
     varsel <- input$var2
     plo_fun(varsel, alldat)
     
-    }, height = 300, width = 600)
+    })
 
   # third variable plot
-  output$var3plot <- renderPlot({
+  output$var3plot <- renderDygraph({
      
     alldat <- runmod()
     
@@ -56,6 +58,6 @@ shinyServer(function(input, output) {
     varsel <- input$var3
     plo_fun(varsel, alldat)
     
-    }, height = 300, width = 600)
+    })
 
 })
