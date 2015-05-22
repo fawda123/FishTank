@@ -72,7 +72,6 @@ create_input <- function(sc_in){
   
 }
 
-
 # a caller for state variable labels
 labels_fun <- function(...){
   
@@ -163,6 +162,10 @@ labels_fun <- function(...){
   )
   vals <- vals[shrt]    
   
+  # remove names
+  names(lngs) <- NULL
+  names(vals) <- NULL
+    
   out <- list(shrt = shrt, lngs = lngs, vals = vals)
   return(out)
 
@@ -227,23 +230,79 @@ run_mod <- function(sc_in, input_in){
 }
   
 # format data for plotting, both scenarios
-data_format <- function(...){
+# sc_in1 and sc_in2 is to relabel the model outputs for the legend 
+data_format <- function(sc_in1, sc_in2, ...){
   
-  
+  # state variables names and location of model results for each scenario
   states <- labels_fun()$shrt
+  dirs <- dir('R_PLOTS')
   
+  # empty vector for results
+  out_all <- vector('list', length = length(dirs))
+  names(out_all) <- dirs
+  
+  # import results for each directory
+  for(dir in dirs){
+
     # import the data
     fls <- vector("list", length = length(states))
     names(fls) <- states
-    for(fl in states) fls[[fl]] <- read.table(paste0('R_PLOTS/', fl, '.txt'))
+    for(fl in states) 
+      fls[[fl]] <- read.table(paste0('R_PLOTS/', dir, '/', fl, '.txt'))
     
     # format data for plotting
     out <- do.call('rbind', fls)
     out$state <- gsub('\\.[0-9]*$', '', row.names(out))
     row.names(out) <- 1:nrow(out)
     names(out) <- c('step', 'val', 'state')
-    out$step <- out$step/288
-    out$state <- factor(out$state, levels = states)
+
+    out_all[[dir]] <- out
     
   }
+
+  # combine results from each scenario
+  out_all <- melt(out_all, id.vars = names(out_all[[1]]))
+  names(out_all)[names(out_all) %in% 'L1'] <- 'scenario'
+  out_all$scenario <- factor(out_all$scenario, labels = c(sc_in1, sc_in2))
+  out_all$step <- out_all$step/288
+  out_all$state <- factor(out_all$state, levels = states)
+
+  return(out_all)
+  
+}
+
+# the plotting function
+# varsel is input name, all dat is input data
+plo_fun <- function(varsel, alldat){
+  
+  varsel <- labels_fun()$shrt[labels_fun()$lngs %in% varsel]
+  toplo <- filter(alldat, alldat$state %in% varsel) 
+
+  ylab <- expr_fun(varsel)
+  
+  # plot
+  p <- ggplot(toplo, aes(x = step, y = val, group = scenario, colour = scenario)) + 
+    geom_line() +
+    theme_bw() + 
+    scale_x_continuous('Days') + 
+    scale_y_continuous(ylab)
+  
+  return(p)
+  
+}
+
+# formatting the labels from labels_fun as expressions for plots
+expr_fun <- function(lab_in){
+ 
+  sel <- which(labels_fun()$shrt == lab_in)
+  val <- labels_fun()$vals[sel]
+  
+  if(grepl('-', val)){
+    val <- strsplit(val, '-')[[1]]
+    val <- bquote(.(val[1]) ^ .(paste0('-', val[2])))
+  }
+    
+  return(val)
+   
+}
     
