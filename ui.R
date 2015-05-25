@@ -54,10 +54,11 @@ shinyUI(fluidPage(
       )
     ),
     
-    column(9, 
-      dygraphOutput("var1plot", height = "300px", width = "700px")
-    ),
-
+    column(9,
+      dygraphOutput("var1plot", height = "300px", width = "700px"),
+      HTML('<p></p>')
+      ),
+    
     # second variable
     column(9, 
       selectInput(inputId = 'var2',
@@ -69,7 +70,8 @@ shinyUI(fluidPage(
     ),
         
     column(9, 
-      dygraphOutput("var2plot", height = "300px", width = "700px")
+      dygraphOutput("var2plot", height = "300px", width = "700px"),
+      HTML('<p></p>')
     ),
     
     # third variable
@@ -83,7 +85,8 @@ shinyUI(fluidPage(
     ),
      
   column(9,    
-    dygraphOutput("var3plot", height = "300px", width = "700px")
+    dygraphOutput("var3plot", height = "300px", width = "700px"),
+    HTML('<p></p>')
   )
             
   )
