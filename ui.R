@@ -44,50 +44,66 @@ shinyUI(fluidPage(
   # main panel for variable selection
   mainPanel(
 
-    # first variable
-    column(9, 
-      selectInput(inputId = 'var1',
-        label = NULL,
-        choices = labels_fun()$lngs, 
-        selected = 'nitrate', 
-        width = '600px'
-      )
-    ),
+    tabsetPanel(
+      
+      tabPanel("Model output", 
     
-    column(9,
-      dygraphOutput("var1plot", height = "300px", width = "700px"),
-      HTML('<p></p>')
+        HTML('<p></p>'),
+        
+        # first variable
+        column(9, 
+          selectInput(inputId = 'var1',
+            label = NULL,
+            choices = labels_fun()$lngs, 
+            selected = 'nitrate', 
+            width = '600px'
+          )
+        ),
+        
+        column(9,
+          dygraphOutput("var1plot", height = "300px", width = "700px"),
+          HTML('<p></p>')
+          ),
+        
+        # second variable
+        column(9, 
+          selectInput(inputId = 'var2',
+            label = NULL,
+            choices = labels_fun()$lngs, 
+            selected = 'phytoplankton abundance 1', 
+            width = '600px'
+          )
+        ),
+            
+        column(9, 
+          dygraphOutput("var2plot", height = "300px", width = "700px"),
+          HTML('<p></p>')
+        ),
+        
+        # third variable
+        column(9, 
+          selectInput(inputId = 'var3',
+            label = NULL,
+            choices = labels_fun()$lngs, 
+            selected = 'oxygen', 
+            width = '600px'
+          )
+        ),
+         
+        column(9,    
+          dygraphOutput("var3plot", height = "300px", width = "700px"),
+          HTML('<p></p>')
+        )
+      
       ),
     
-    # second variable
-    column(9, 
-      selectInput(inputId = 'var2',
-        label = NULL,
-        choices = labels_fun()$lngs, 
-        selected = 'phytoplankton abundance 1', 
-        width = '600px'
-      )
-    ),
+    tabPanel("Scenario conditions",
+             
+        tableOutput("initconds")
         
-    column(9, 
-      dygraphOutput("var2plot", height = "300px", width = "700px"),
-      HTML('<p></p>')
-    ),
-    
-    # third variable
-    column(9, 
-      selectInput(inputId = 'var3',
-        label = NULL,
-        choices = labels_fun()$lngs, 
-        selected = 'oxygen', 
-        width = '600px'
       )
-    ),
-     
-  column(9,    
-    dygraphOutput("var3plot", height = "300px", width = "700px"),
-    HTML('<p></p>')
-  )
+    
+    )
             
   )
   

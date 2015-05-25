@@ -217,8 +217,8 @@ run_mod <- function(sc_in, input_in){
   
   states <- labels_fun()$shrt
   # get the input based on scenario, save the file
-  input <- create_input(sc_in)
-  sv_input <- format_input(input)
+  inputls <- create_input(sc_in)
+  sv_input <- format_input(inputls)
   
   # run model
   torun <- paste0(getwd(), '/EPACOM_GEM.exe')
@@ -306,4 +306,16 @@ expr_fun <- function(lab_in){
   return(val)
    
 }
-    
+
+# function to format input conditions for each scenario for table
+tab_form <- function(sc1, sc2){
+  
+  ls1 <- create_input(sc1)
+  ls2 <- create_input(sc2)
+   
+  out <- data.frame(Variable = labels_fun()$lng, Value = labels_fun()$val, ls1, ls2)
+  names(out)[c(3, 4)] <- c(sc1, sc2)
+
+  return(out)
+  
+}    

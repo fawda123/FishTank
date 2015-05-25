@@ -65,5 +65,18 @@ shinyServer(function(input, output, session) {
     plo_fun(varsel, alldat)
     
     })
+  
+  # table for input conditions
+  # table of performance metrics
+  output$initconds <- renderTable({
+    
+    sc1 <- input$scenario1
+    sc2 <- input$scenario2
+    
+    to_tab <- tab_form(sc1, sc2)
+    
+    to_tab
+    
+  }, include.rownames = F)
 
 })
