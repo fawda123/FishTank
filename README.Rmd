@@ -16,3 +16,5 @@ output:
 * fancy color scheme
 * Descriptive text for each scenario
 * EPA logo?
+* Run model on parameters, not state variables
+* Setup folder on L drive

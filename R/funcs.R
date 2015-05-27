@@ -1,89 +1,16 @@
-# change the input conditions based on chosen scenario
-# sc_in is chr string for name of input scenario, 'base', 'low', 'high'
-create_input <- function(sc_in){
-
-  init <- c(
-    A1 = "88562256", 
-    A2 = "88562256",
-    A3 = "88562256", 
-    A4 = "88562256", 
-    A5 = "88562256", 
-    A6 = "88562256",
-    Qn1 = "0.30649887E-8",
-    Qn2 = "0.30649887E-8",
-    Qn3 = "0.30649887E-8",
-    Qn4 = "0.30649887E-8",
-    Qn5 = "0.30649887E-8",
-    Qn6 = "0.30649887E-8",
-    Qp1 = "0.19438481E-9",
-    Qp2 = "0.19438481E-9",
-    Qp3 = "0.19438481E-9",
-    Qp4 = "0.19438481E-9",
-    Qp5 = "0.19438481E-9",
-    Qp6 = "0.19438481E-9",
-    G1 = "340",
-    G2 = "34000",
-    NO3 = "0.9",
-    NH4 = "0.55",
-    PO4 = "0.0268",
-    DIC = "2134",
-    O2 = "172",
-    OM1_A = "0.13",
-    OM2_A = "2.7",
-    OM1_fp = "0.13",
-    OM2_fp = "2.7",
-    OM1_rp = "0",
-    OM2_rp = "0",
-    CDOM = "0.68",
-    Si = "7.34",
-    OM1_bc = "26",
-    OM2_bc = "123"
-  )
-  
-  ##
-  # scenarios 
-  
-  # baseline
-  base <- c(
-    NO3 = "0.9",
-    NH4 = "0.55",
-    PO4 = "0.0268"
-  )
-  
-  # low nutrients
-  low <- c(
-    NO3 = "0",
-    NH4 = "0",
-    PO4 = "0"
-  )
-    
-  # high nutrients
-  high <- c(
-    NO3 = "30",
-    NH4 = "30",
-    PO4 = "30"
-  )
-  
-  # replace values in init w/ chosen scenario
-  sc_in <- get(sc_in)
-  init[names(sc_in)] <- sc_in
-  
-  return(init)
-  
-}
-
 # a caller for state variable labels
 labels_fun <- function(...){
   
   # shrt names, all other vectors will be ordered using shrt
-  shrt <- c('A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'Qn1', 'Qn2', 'Qn3', 
+  shrt <- c('Chla','A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'Qn1', 'Qn2', 'Qn3', 
     'Qn4', 'Qn5', 'Qn6', 'Qp1', 'Qp2', 'Qp3', 'Qp4', 'Qp5', 'Qp6', 
-    'G1', 'G2', 'NO3', 'NH4', 'PO4', 'DIC', 'O2', 'OM1_A', 'OM2_A', 
+    'G1', 'G2', 'IOPpar', 'NO3', 'NH4', 'PO4', 'DIC', 'O2', 'OM1_A', 'OM2_A', 
     'OM1_fp', 'OM2_fp', 'OM1_rp', 'OM2_rp', 'CDOM', 'Si', 'OM1_bc', 
     'OM2_bc')
 
   # long names
   lngs <- c(
+    Chla = 'chlorophyll a',
     A1 = 'phytoplankton abundance 1',
     A2 = 'phytoplankton abundance 2',
     A3 = 'phytoplankton abundance 3',
@@ -104,6 +31,7 @@ labels_fun <- function(...){
     Qp6 = 'cell phosphorus quota 6',
     G1 = 'zooplankton 1',
     G2 = 'zooplankton 2',
+    IOPpar = 'photosynthetically available radiation', 
     OM1_A = 'particulate organic matter derived from phytoplankton',
     OM1_fp = 'particulate organic matter derived from zooplankton fecal pellets',
     OM1_rp = 'particulate organic matter from riverine particulates',
@@ -124,6 +52,7 @@ labels_fun <- function(...){
   
   # unit values
   vals <- c(
+    Chla = 'mg m-3',
     A1 = 	'cells m-3',
     A2 = 	'cells m-3',
     A3 = 	'cells m-3',
@@ -144,6 +73,7 @@ labels_fun <- function(...){
     Qp6 = 	'mmol  P cell-1',
     G1 = 	'individuals  m-3',
     G2 = 	'individuals  m-3',
+    IOPpar = 'percent',
     OM1_A = 	'mmol m-3',
     OM1_fp = 	'mmol m-3',
     OM1_rp = 	'mmol m-3',
@@ -171,43 +101,45 @@ labels_fun <- function(...){
 
 }
 
-# formats the input list and saves as text file for model input
-format_input <- function(ls_in){
+# import an initial conditions file for state variables, format as data frame
+# sc_in is name of folder in scenarios folder, 
+import_init <- function(sc_in){
   
-  # make a data frame
-  out <- data.frame(ls_in)
-  out$var <- paste0('!', row.names(out))
+  dat <- read.table(paste0('scenarios/', sc_in, '/InitialConditions.txt'))
+  dat <- as.data.frame(dat, stringsAsFactors = FALSE)
+  dat[, 2] <- gsub('^!', '', dat[, 2])
+  names(dat) <- c('strt', 'shrt')
   
-  # save to outfl
-  write.table(out, 'InitialConditions.txt', quote = FALSE, 
-    row.names = FALSE, col.names = FALSE, 
-    sep = '\t\t\t\t')
+  return(dat)
+  
+}
+
+# move the input files from the scenario folders to root to run model
+# sc_in is text from input indicating the name of the scenairo
+mvinp_fls <- function(sc_in){
+  
+  # get the files names of results from model
+  path <- paste0('scenarios/', sc_in, '/')
+  fls <- list.files(path, full.names = TRUE)
+  file.copy(fls, getwd(), overwrite = TRUE)
   
 }
 
 # move output and files and initial conditions file
 # input_in is what input was chosen, a character string
-mv_files <- function(input_in){
+mvout_fls <- function(input_in){
   
   # get the files names of results from model
   fls <- list.files('R_PLOTS/', pattern = '.txt', full.names = TRUE)
+  fls <- c('InitialConditions.txt', 'GEM_InputFile', fls)
   
-  # scenario 1 files
-  if(input_in == 'scenario1'){
-  
-    file.copy(c('InitialConditions.txt', fls), 'R_PLOTS/scenario1/', overwrite = TRUE)
+  # path to move to
+  pathmv <- 'R_PLOTS/scenario1'
+  if(input_in == 'scenario2') pathmv <- 'R_PLOTS/scenario2'
     
-  } 
-  
-  # scenario 2 files
-  if(input_in == 'scenario2'){
-    
-    file.copy(c('InitialConditions.txt', fls), 'R_PLOTS/scenario2/', overwrite = TRUE)
-    
-  }
-  
-  # remove the copied files
-  file.remove(c('InitialConditions.txt', fls))
+  # copy, then remove the files to the path
+  file.copy(fls, pathmv, overwrite = TRUE)
+  file.remove(fls)
   
 } 
   
@@ -215,17 +147,14 @@ mv_files <- function(input_in){
 # sc_in is the name of the scenario
 run_mod <- function(sc_in, input_in){
   
-  states <- labels_fun()$shrt
-  # get the input based on scenario, save the file
-  inputls <- create_input(sc_in)
-  sv_input <- format_input(inputls)
+  # move the input files
+  mvinp_fls(sc_in)
   
   # run model
-  torun <- paste0(getwd(), '/EPACOM_GEM.exe')
-  system(torun)
+  system('EPACOM_GEM.exe')
   
-  # move and cleanup
-  mv_files(input_in)
+  # move output and cleanup
+  mvout_fls(input_in)
   
 }
   
@@ -309,11 +238,14 @@ expr_fun <- function(lab_in){
 
 # function to format input conditions for each scenario for table
 tab_form <- function(sc1, sc2){
-  
-  ls1 <- create_input(sc1)
-  ls2 <- create_input(sc2)
+
+  ls1 <- import_init(sc1)
+  ls2 <- import_init(sc2)
    
-  out <- data.frame(Variable = labels_fun()$lng, Value = labels_fun()$val, ls1, ls2)
+  out <- data.frame(Variable = labels_fun()$lng, Value = labels_fun()$val, shrt = labels_fun()$shrt)
+  out <- merge(out, ls1, by = 'shrt', all.x = TRUE)
+  out <- merge(out, ls2, by = 'shrt', all.x = TRUE)
+  out <- out[, -1]
   names(out)[c(3, 4)] <- c(sc1, sc2)
 
   return(out)

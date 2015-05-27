@@ -1,5 +1,10 @@
 library(shiny)
+library(dygraphs)
+
 source('R/funcs.R')
+
+# names of input scenarios
+scenarios <- list.dirs('scenarios', full.names = FALSE)[-1]
 
 # Define UI for application
 shinyUI(fluidPage(
@@ -27,14 +32,14 @@ shinyUI(fluidPage(
     
     selectInput(inputId = 'scenario1', 
       label = h4('Scenario one'),
-      choices = c('base', 'low', 'high'),
-      selected = 'base'
+      choices = scenarios,
+      selected = scenarios[1]
     ),
    
     selectInput(inputId = 'scenario2', 
       label = h4('Scenario two'),
-      choices = c('base', 'low', 'high'),
-      selected = 'high'
+      choices = scenarios,
+      selected = scenarios[2]
     ),
 
     width = 3
@@ -97,7 +102,7 @@ shinyUI(fluidPage(
       
       ),
     
-    tabPanel("Scenario conditions",
+    tabPanel("Initial conditions",
              
         tableOutput("initconds")
         
