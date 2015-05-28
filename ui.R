@@ -11,100 +11,135 @@ shinyUI(fluidPage(
   
   theme = 'styles.css',
   
-  # Application title
-
+  # main panel for variable selection
+  mainPanel(width = 12,
+      
+  # spacing
+  fluidRow(HTML('<p></p>')),
+  
+  # top controls
   fluidRow(
     
-    column(width = 1, offset = 0,
-      img(src = "icon.png", height = 70, width = 70)
+    column(width = 3,
+      actionButton('runmod', label = img(src = "FishTankLogo_v2.png", width = 120))
     ),
     
-    column(width = 6, 
-      h1('FishTank')
+    column(width = 4, 
+      selectInput(inputId = 'scenario1', 
+        label = h4('Scenario one'),
+        choices = scenarios,
+        selected = scenarios[1]
+      )
+    ),
+    
+    column(width = 4, 
+      selectInput(inputId = 'scenario2', 
+        label = h4('Scenario two'),
+        choices = scenarios,
+        selected = scenarios[2]
+      )
     )
-    
-  ),
-  
-  # Sidebar with a slider input for number of observations
-  sidebarPanel(
-    
-    actionButton('runmod', label = "Run model!", class = "color:red"),
-    
-    selectInput(inputId = 'scenario1', 
-      label = h4('Scenario one'),
-      choices = scenarios,
-      selected = scenarios[1]
-    ),
    
-    selectInput(inputId = 'scenario2', 
-      label = h4('Scenario two'),
-      choices = scenarios,
-      selected = scenarios[2]
-    ),
-
-    width = 3
-    
   ),
   
-  # main panel for variable selection
-  mainPanel(
-
+  #spacing
+  fluidRow(HTML('<p></p>')),
+    
     tabsetPanel(
       
       tabPanel("Model output", 
     
         HTML('<p></p>'),
         
-        # first variable
-        column(9, 
-          selectInput(inputId = 'var1',
-            label = NULL,
-            choices = labels_fun()$lngs, 
-            selected = 'nitrate', 
-            width = '600px'
-          )
-        ),
-        
-        column(9,
-          dygraphOutput("var1plot", height = "300px", width = "700px"),
-          HTML('<p></p>')
+        # first row of plots
+        fluidRow(
+          
+          # first variable
+          column(width = 6,
+            
+            selectInput(inputId = 'var1',
+              label = NULL,
+              choices = labels_fun()$lngs, 
+              selected = 'nitrate', 
+              width = '600px'
+            ),
+                                   
+            dygraphOutput("var1plot", height = "300px", width = "600px")
+          
           ),
+          
+          # second variable
+          column(width = 6, 
+          
+            selectInput(inputId = 'var2',
+              label = NULL,
+              choices = labels_fun()$lngs, 
+              selected = 'phosphate', 
+              width = '600px'
+            ),
+      
+            dygraphOutput("var2plot", height = "300px", width = "600px")
+            
+          )
+          
+        ), 
+        
+        HTML('<p></p>'),
         
         # second variable
-        column(9, 
-          selectInput(inputId = 'var2',
-            label = NULL,
-            choices = labels_fun()$lngs, 
-            selected = 'phytoplankton abundance 1', 
-            width = '600px'
-          )
-        ),
+        fluidRow(
+          
+          column(width = 6,
             
-        column(9, 
-          dygraphOutput("var2plot", height = "300px", width = "700px"),
-          HTML('<p></p>')
-        ),
-        
-        # third variable
-        column(9, 
-          selectInput(inputId = 'var3',
-            label = NULL,
-            choices = labels_fun()$lngs, 
-            selected = 'oxygen', 
-            width = '600px'
-          )
-        ),
-         
-        column(9,    
-          dygraphOutput("var3plot", height = "300px", width = "700px"),
-          HTML('<p></p>')
-        )
+            selectInput(inputId = 'var3',
+              label = NULL,
+              choices = labels_fun()$lngs, 
+              selected = 'phytoplankton abundance 1', 
+              width = '600px'
+            ),
+                                   
+            dygraphOutput("var3plot", height = "300px", width = "600px")
+          
+          ),
+          
+          column(width = 6, 
+          
+            selectInput(inputId = 'var4',
+              label = NULL,
+              choices = labels_fun()$lngs, 
+              selected = 'oxygen', 
+              width = '600px'
+            ),
       
+            dygraphOutput("var4plot", height = "300px", width = "600px")
+            
+          )
+          
+        )
+        
       ),
     
+    tabPanel("Scenario descriptions",
+        
+        h3('Scenario 1'),     
+        h4(textOutput("descrips1")),
+        h3('Scenario 2'),
+        h4(textOutput("descrips2"))
+      
+      ),
+      
     tabPanel("Initial conditions",
              
         tableOutput("initconds")
+        
+      ),
+      
+    tabPanel("Parameter settings",
+        
+        h3('Scenario 1'),   
+        htmlOutput("initparms1"),
+        h3('Scenario 2'),
+        htmlOutput("initparms2")
         
       )
     

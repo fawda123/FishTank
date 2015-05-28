@@ -6,47 +6,59 @@ labels_fun <- function(...){
     'Qn4', 'Qn5', 'Qn6', 'Qp1', 'Qp2', 'Qp3', 'Qp4', 'Qp5', 'Qp6', 
     'G1', 'G2', 'IOPpar', 'NO3', 'NH4', 'PO4', 'DIC', 'O2', 'OM1_A', 'OM2_A', 
     'OM1_fp', 'OM2_fp', 'OM1_rp', 'OM2_rp', 'CDOM', 'Si', 'OM1_bc', 
-    'OM2_bc')
+    'OM2_bc','uN','uP','uE','uA','x1A','x2A','y1A','y2A','x1fp','x2fp','y1fp','y2fp')
 
   # long names
   lngs <- c(
-    Chla = 'chlorophyll a',
-    A1 = 'phytoplankton abundance 1',
-    A2 = 'phytoplankton abundance 2',
-    A3 = 'phytoplankton abundance 3',
-    A4 = 'phytoplankton abundance 4',
-    A5 = 'phytoplankton abundance 5',
-    A6 = 'phytoplankton abundance 6',
-    Qn1 = 'cell nitrogen quota 1',
-    Qn2 = 'cell nitrogen quota 2',
-    Qn3 = 'cell nitrogen quota 3',
-    Qn4 = 'cell nitrogen quota 4',
-    Qn5 = 'cell nitrogen quota 5',
-    Qn6 = 'cell nitrogen quota 6',
-    Qp1 = 'cell phosphorus quota 1',
-    Qp2 = 'cell phosphorus quota 2',
-    Qp3 = 'cell phosphorus quota 3',
-    Qp4 = 'cell phosphorus quota 4',
-    Qp5 = 'cell phosphorus quota 5',
-    Qp6 = 'cell phosphorus quota 6',
-    G1 = 'zooplankton 1',
-    G2 = 'zooplankton 2',
-    IOPpar = 'photosynthetically available radiation', 
-    OM1_A = 'particulate organic matter derived from phytoplankton',
-    OM1_fp = 'particulate organic matter derived from zooplankton fecal pellets',
-    OM1_rp = 'particulate organic matter from riverine particulates',
-    OM1_bc = 'particulate organic matter from coastal ocean boundary condition',
-    OM2_A = 'dissolved organic matter derived from phytoplankton',
-    OM2_fp = 'dissolved organic matter derived from zooplankton',
-    OM2_rp = 'dissolved organic matter from the rivers',
-    OM2_bc = 'dissolved organic matter from coastal ocean boundary condition',
-    NO3 = 'nitrate',
-    NH4 = 'ammonium',
-    PO4 = 'phosphate',
-    CDOM = 'colored dissolved organic matter',
-    Si = 'silica',
-    O2 = 'oxygen',
-    DIC = 'dissolved inorganic carbon'
+    Chla = 'Chlorophyll a',
+    A1 = 'Phytoplankton Abundance 1',
+    A2 = 'Phytoplankton Abundance 2',
+    A3 = 'Phytoplankton Abundance 3',
+    A4 = 'Phytoplankton Abundance 4',
+    A5 = 'Phytoplankton Abundance 5',
+    A6 = 'Phytoplankton Abundance 6',
+    Qn1 = 'Cell Nitrogen Quota 1',
+    Qn2 = 'Cell Nitrogen Quota 2',
+    Qn3 = 'Cell Nitrogen Quota 3',
+    Qn4 = 'Cell Nitrogen Quota 4',
+    Qn5 = 'Cell Nitrogen Quota 5',
+    Qn6 = 'Cell Nitrogen Quota 6',
+    Qp1 = 'Cell Phosphorus Quota 1',
+    Qp2 = 'Cell Phosphorus Quota 2',
+    Qp3 = 'Cell Phosphorus Quota 3',
+    Qp4 = 'Cell Phosphorus Quota 4',
+    Qp5 = 'Cell Phosphorus Quota 5',
+    Qp6 = 'Cell Phosphorus Quota 6',
+    G1 = 'Zooplankton Abundance 1',
+    G2 = 'Zooplankton Abundance 2',
+    IOPpar = 'Photosynthetically Available Radiation', 
+    OM1_A = 'Particulate Organic Matter from Phytoplankton',
+    OM1_fp = 'Particulate Organic Matter from Zooplankton Fecal Pellets',
+    OM1_rp = 'Particulate Organic Matter from River',
+    OM1_bc = 'Particulate organic matter from Boundary',
+    OM2_A = 'Dissolved Organic Matter from Phytoplankton',
+    OM2_fp = 'Dissolved Organic Matter from Zooplankton',
+    OM2_rp = 'Dissolved Organic Matter from River',
+    OM2_bc = 'Dissolved Organic Matter from Boundary',
+    NO3 = 'Nitrate',
+    NH4 = 'Ammonium',
+    PO4 = 'Phosphate',
+    CDOM = 'Colored Dissolved Organic Matter',
+    Si = 'Dissolved Silica',
+    O2 = 'Dissolved Oxygen',
+    DIC = 'Dissolved Inorganic Carbon',
+    uN = 'Specific Growth Rate Due to N',
+    uP = 'Specific Growth Rate Due to P',
+    uE = 'Specific Growth Rate Due to PAR',
+    uA = 'Specific Growth Rate',
+    x1A = 'C:P Stoichiometry of OM1A',
+    x2A = 'C:P Stoichiometry of OM2A',
+    y1A = 'N:P Stoichiometry to OM1A',
+    y2A = 'N:P Stoichiometry to OM2A',
+    x1fp = 'C:P of from Fecal Pellets',
+    x2fp = 'C:P for DOM from Zooplankton',
+    y1fp = 'N:P of from Fecal Pellets',
+    y2fp = 'N:P for DOM from Zooplankton'
   )
   lngs <- lngs[shrt]
   
@@ -88,7 +100,19 @@ labels_fun <- function(...){
     CDOM = 	'ppb',
     Si = 	'mmol m-3',
     O2 = 	'mmol m-3',
-    DIC = 	'mmol m-3'
+    DIC = 	'mmol m-3',
+    uN = 'd-1',
+    uP = 'd-1',
+    uE = 'd-1',
+    uA = 'd-1',
+    x1A = 'unitless',
+    x2A = 'unitless',
+    y1A = 'unitless',
+    y2A = 'unitless',
+    x1fp = 'unitless',
+    x2fp = 'unitless',
+    y1fp = 'unitless',
+    y2fp = 'unitless'
   )
   vals <- vals[shrt]    
   
@@ -161,7 +185,7 @@ run_mod <- function(sc_in, input_in){
 # format data for plotting, both scenarios
 # sc_in1 and sc_in2 is to relabel the model outputs for the legend 
 data_format <- function(sc_in1, sc_in2, ...){
-  
+
   # state variables names and location of model results for each scenario
   states <- labels_fun()$shrt
   dirs <- dir('R_PLOTS')
@@ -177,7 +201,7 @@ data_format <- function(sc_in1, sc_in2, ...){
     fls <- vector("list", length = length(states))
     names(fls) <- states
     for(fl in states) 
-      fls[[fl]] <- read.table(paste0('R_PLOTS/', dir, '/', fl, '.txt'))
+      fls[[fl]] <- read.table(paste0('R_PLOTS/', dir, '/', fl, '.txt'))[, c(1, 2)]
     
     # format data for plotting
     out <- do.call('rbind', fls)
@@ -213,7 +237,7 @@ plo_fun <- function(varsel, alldat){
   toplo <- select(toplo, -state)
   toplo <- spread(toplo, scenario, val)
   toplo <- as.matrix(toplo[, -1])
-  toplo <- as.xts(toplo, order.by = as.Date(1:nrow(toplo), origin = '2000-01-01'))
+  toplo <- as.xts(toplo, order.by = as.Date(1:nrow(toplo), origin = '1999-12-31'))
 
   dygraph(toplo, ylab = ylab, group = 'group') %>% 
       dyRangeSelector
@@ -236,6 +260,17 @@ expr_fun <- function(lab_in){
    
 }
 
+# read description files and prep for output tab
+# sc_in is the name of the scenario
+read_descrips <- function(sc_in){
+  
+  out <- readLines(paste0('scenarios/', sc_in, '/description.txt'), warn = FALSE)
+  out <- paste(sc_in, out, sep = ', ')
+  
+  return(out)
+  
+}
+
 # function to format input conditions for each scenario for table
 tab_form <- function(sc1, sc2){
 
@@ -251,3 +286,13 @@ tab_form <- function(sc1, sc2){
   return(out)
   
 }    
+
+# function to read parameter input file
+# sc_in is name of input scenario
+read_parms <- function(sc_in){
+  
+  out <- readLines(paste0('scenarios/', sc_in, '/GEM_InputFile'), warn = FALSE)
+  out <- paste0('<br>', out, '</br>')
+  return(out)
+  
+}
