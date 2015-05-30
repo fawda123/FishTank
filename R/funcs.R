@@ -87,26 +87,26 @@ labels_fun <- function(...){
   # unit values
   vals <- c(
     Chla = 'mg m-3',
-    A1 = 	'cells m-3',
-    A2 = 	'cells m-3',
-    A3 = 	'cells m-3',
-    A4 = 	'cells m-3',
-    A5 = 	'cells m-3',
-    A6 = 	'cells m-3',
-    Qn1 = 	'mmol  N cell-1',
-    Qn2 = 	'mmol  N cell-1',
-    Qn3 = 	'mmol  N cell-1',
-    Qn4 = 	'mmol  N cell-1',
-    Qn5 = 	'mmol  N cell-1',
-    Qn6 = 	'mmol  N cell-1',
-    Qp1 = 	'mmol  P cell-1',
-    Qp2 = 	'mmol  P cell-1',
-    Qp3 = 	'mmol  P cell-1',
-    Qp4 = 	'mmol  P cell-1',
-    Qp5 = 	'mmol  P cell-1',
-    Qp6 = 	'mmol  P cell-1',
-    G1 = 	'individuals  m-3',
-    G2 = 	'individuals  m-3',
+    A1 = 	'cells m-3 (1e8)',
+    A2 = 	'cells m-3 (1e8)',
+    A3 = 	'cells m-3 (1e8)',
+    A4 = 	'cells m-3 (1e8)',
+    A5 = 	'cells m-3 (1e8)',
+    A6 = 	'cells m-3 (1e8)',
+    Qn1 = 	'mmol  N cell-1 (-1e9)',
+    Qn2 = 	'mmol  N cell-1 (-1e9)',
+    Qn3 = 	'mmol  N cell-1 (-1e9)',
+    Qn4 = 	'mmol  N cell-1 (-1e9)',
+    Qn5 = 	'mmol  N cell-1 (-1e9)',
+    Qn6 = 	'mmol  N cell-1 (-1e9)',
+    Qp1 = 	'mmol  P cell-1 (-1e10)',
+    Qp2 = 	'mmol  P cell-1 (-1e10)',
+    Qp3 = 	'mmol  P cell-1 (-1e10)',
+    Qp4 = 	'mmol  P cell-1 (-1e10)',
+    Qp5 = 	'mmol  P cell-1 (-1e10)',
+    Qp6 = 	'mmol  P cell-1 (-1e10)',
+    G1 = 	'individuals  m-3 (1e3)',
+    G2 = 	'individuals  m-3 (1e3)',
     IOPpar = 'percent',
     OM1_A = 	'mmol m-3',
     OM1_fp = 	'mmol m-3',
@@ -141,12 +141,12 @@ labels_fun <- function(...){
     uE4 = 'd-1',
     uE5 = 'd-1',
     uE6 = 'd-1',
-    uA1 = 'd-1',
-    uA2 = 'd-1',
-    uA3 = 'd-1',
-    uA4 = 'd-1',
-    uA5 = 'd-1',
-    uA6 = 'd-1',
+    uA1 = 'd-1 (-1e9)',
+    uA2 = 'd-1 (-1e9)',
+    uA3 = 'd-1 (-1e9)',
+    uA4 = 'd-1 (-1e9)',
+    uA5 = 'd-1 (-1e9)',
+    uA6 = 'd-1 (-1e9)',
     x1A = 'unitless',
     x2A = 'unitless',
     y1A = 'unitless',
@@ -168,7 +168,7 @@ labels_fun <- function(...){
 }
 
 # import an initial conditions file for state variables, format as data frame
-# sc_in is name of folder in scenarios folder, 
+# sc_in is name of folder in scenarios folder 
 import_init <- function(sc_in){
   
   dat <- read.table(paste0('scenarios/', sc_in, '/InitialConditions.txt'))
@@ -288,13 +288,51 @@ data_format <- function(sc_in1, sc_in2, ...){
   
 }
 
+# divide or multiply output for better axis format
+# toplo and varsel are inputs, used in plo_fun
+form_axis <- function(toplo, varsel){
+  
+  # phyto
+  if(grepl('A[0-9]', varsel)){
+    toplo$val <- toplo$val / 1e8
+  }
+ 
+  # cell nitrogen quota
+  if(grepl('Qn[0-9]', varsel)){
+    toplo$val <- toplo$val * 1e9
+  }
+  
+  # cell phosphorus quota
+  if(grepl('Qp[0-9]', varsel)){
+    toplo$val <- toplo$val * 1e10
+  }
+    
+  # specific growth rate
+  if(grepl('uA[0-9]', varsel)){
+    toplo$val <- toplo$val * 1e9
+  }
+  
+  # specific growth rate
+  if(grepl('G[0-9]', varsel)){
+    toplo$val <- toplo$val / 1e3
+  }
+  
+  return(toplo)
+  
+}
+  
+
 # the plotting function
 # varsel is input name, all dat is input data
 plo_fun <- function(varsel, alldat){
 
   varsel <- labels_fun()$shrt[labels_fun()$lngs %in% varsel]
   toplo <- filter(alldat, alldat$state %in% varsel) 
+
+  # reformat units
+  toplo <- form_axis(toplo, varsel)
   
+  # change label format (doesn't work for dygraphs)
   ylab <- expr_fun(varsel)
   
   # make xts
