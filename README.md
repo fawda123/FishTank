@@ -3,7 +3,7 @@
 
 ### To do:
 
-* Function to format short and value labels as expressions with italics and subscripts
-* fancy color scheme
-* Descriptive text for each scenario
-* EPA logo?
+* convert very large/small units as power values
+* fix scenario descriptions
+* read time step correctly, scale results accordingly
+
