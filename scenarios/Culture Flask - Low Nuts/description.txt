@@ -1,0 +1,5 @@
+set NO3 = 1 umol/L
+set PO4 = 1 
+set Si = 1
+no zooplankton
+no air-water gas exchange

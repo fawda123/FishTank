@@ -1,0 +1,3 @@
+set initial nutrient and organic matter based on observations from a eutrophic estuary (Weeks Bay, Alabama)
+Zooplankton On
+Physics On

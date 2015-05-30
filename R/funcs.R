@@ -6,7 +6,9 @@ labels_fun <- function(...){
     'Qn4', 'Qn5', 'Qn6', 'Qp1', 'Qp2', 'Qp3', 'Qp4', 'Qp5', 'Qp6', 
     'G1', 'G2', 'IOPpar', 'NO3', 'NH4', 'PO4', 'DIC', 'O2', 'OM1_A', 'OM2_A', 
     'OM1_fp', 'OM2_fp', 'OM1_rp', 'OM2_rp', 'CDOM', 'Si', 'OM1_bc', 
-    'OM2_bc','uN','uP','uE','uA','x1A','x2A','y1A','y2A','x1fp','x2fp','y1fp','y2fp')
+    'OM2_bc','uN1','uN2','uN3','uN4','uN5','uN6','uP1','uP2','uP3','uP4','uP5','uP6',
+    'uE1','uE2','uE3','uE4','uE5','uE6','uA1','uA2','uA3','uA4','uA5','uA6','x1A',
+    'x2A','y1A','y2A','x1fp','x2fp','y1fp','y2fp')
 
   # long names
   lngs <- c(
@@ -47,10 +49,30 @@ labels_fun <- function(...){
     Si = 'Dissolved Silica',
     O2 = 'Dissolved Oxygen',
     DIC = 'Dissolved Inorganic Carbon',
-    uN = 'Specific Growth Rate Due to N',
-    uP = 'Specific Growth Rate Due to P',
-    uE = 'Specific Growth Rate Due to PAR',
-    uA = 'Specific Growth Rate',
+    uN1 = 'Specific Growth Rate Due to N 1',
+    uN2 = 'Specific Growth Rate Due to N 2',
+    uN3 = 'Specific Growth Rate Due to N 3',
+    uN4 = 'Specific Growth Rate Due to N 4',
+    uN5 = 'Specific Growth Rate Due to N 5',
+    uN6 = 'Specific Growth Rate Due to N 6',
+    uP1 = 'Specific Growth Rate Due to P 1',
+    uP2 = 'Specific Growth Rate Due to P 2',
+    uP3 = 'Specific Growth Rate Due to P 3',
+    uP4 = 'Specific Growth Rate Due to P 4',
+    uP5 = 'Specific Growth Rate Due to P 5',
+    uP6 = 'Specific Growth Rate Due to P 6',
+    uE1 = 'Specific Growth Rate Due to PAR 1',
+    uE2 = 'Specific Growth Rate Due to PAR 2',
+    uE3 = 'Specific Growth Rate Due to PAR 3',
+    uE4 = 'Specific Growth Rate Due to PAR 4',
+    uE5 = 'Specific Growth Rate Due to PAR 5', 
+    uE6 = 'Specific Growth Rate Due to PAR 6',
+    uA1 = 'Specific Growth Rate 1',
+    uA2 = 'Specific Growth Rate 2',
+    uA3 = 'Specific Growth Rate 3',
+    uA4 = 'Specific Growth Rate 4',
+    uA5 = 'Specific Growth Rate 5',
+    uA6 = 'Specific Growth Rate 6',
     x1A = 'C:P Stoichiometry of OM1A',
     x2A = 'C:P Stoichiometry of OM2A',
     y1A = 'N:P Stoichiometry to OM1A',
@@ -101,10 +123,30 @@ labels_fun <- function(...){
     Si = 	'mmol m-3',
     O2 = 	'mmol m-3',
     DIC = 	'mmol m-3',
-    uN = 'd-1',
-    uP = 'd-1',
-    uE = 'd-1',
-    uA = 'd-1',
+    uN1 = 'd-1',
+    uN2 = 'd-1',
+    uN3 = 'd-1',
+    uN4 = 'd-1',
+    uN5 = 'd-1',
+    uN6 = 'd-1',
+    uP1 = 'd-1',
+    uP2 = 'd-1',
+    uP3 = 'd-1',
+    uP4 = 'd-1',
+    uP5 = 'd-1',
+    uP6 = 'd-1',
+    uE1 = 'd-1',
+    uE2 = 'd-1',
+    uE3 = 'd-1',
+    uE4 = 'd-1',
+    uE5 = 'd-1',
+    uE6 = 'd-1',
+    uA1 = 'd-1',
+    uA2 = 'd-1',
+    uA3 = 'd-1',
+    uA4 = 'd-1',
+    uA5 = 'd-1',
+    uA6 = 'd-1',
     x1A = 'unitless',
     x2A = 'unitless',
     y1A = 'unitless',
@@ -181,7 +223,26 @@ run_mod <- function(sc_in, input_in){
   mvout_fls(input_in)
   
 }
+ 
+# function to get model step and output step from parm file
+get_steps <- function(sc_in){
+
+  # get parm file, find dT_out
+  parms <- read_parms(sc_in)  
+  parms <- parms[grep('dT_out', parms)]
   
+  # timestep
+  dT <- strsplit(parms, ' ')[[1]][1]
+  dT <- as.numeric(gsub('^<br>', '', dT))
+  
+  # output step
+  dT_out <- strsplit(parms, ' ')[[1]][2]
+  dT_out <- as.numeric(gsub('\t\t!-', '', dT_out))
+  
+  return(c(dT, dT_out))
+  
+}
+
 # format data for plotting, both scenarios
 # sc_in1 and sc_in2 is to relabel the model outputs for the legend 
 data_format <- function(sc_in1, sc_in2, ...){
@@ -209,6 +270,10 @@ data_format <- function(sc_in1, sc_in2, ...){
     row.names(out) <- 1:nrow(out)
     names(out) <- c('step', 'val', 'state')
 
+    # get timestep info for the scenario
+    steps <- get_steps(get(paste0('sc_in', gsub('scenario', '', dir))))
+    out$step <- out$step * steps[1]
+      
     out_all[[dir]] <- out
     
   }
@@ -217,7 +282,6 @@ data_format <- function(sc_in1, sc_in2, ...){
   out_all <- melt(out_all, id.vars = names(out_all[[1]]))
   names(out_all)[names(out_all) %in% 'L1'] <- 'scenario'
   out_all$scenario <- factor(out_all$scenario, labels = c(sc_in1, sc_in2))
-  out_all$step <- out_all$step/288
   out_all$state <- factor(out_all$state, levels = states)
 
   return(out_all)
@@ -236,12 +300,12 @@ plo_fun <- function(varsel, alldat){
   # make xts
   toplo <- select(toplo, -state)
   toplo <- spread(toplo, scenario, val)
+  step <- as.POSIXct(toplo$step, origin = '2000-01-02') 
   toplo <- as.matrix(toplo[, -1])
-  toplo <- as.xts(toplo, order.by = as.Date(1:nrow(toplo), origin = '1999-12-31'))
+  toplo <- as.xts(toplo, order.by = step)
 
   dygraph(toplo, ylab = ylab, group = 'group') %>% 
       dyRangeSelector
-    
 
 }
 
@@ -265,7 +329,8 @@ expr_fun <- function(lab_in){
 read_descrips <- function(sc_in){
   
   out <- readLines(paste0('scenarios/', sc_in, '/description.txt'), warn = FALSE)
-  out <- paste(sc_in, out, sep = ', ')
+  out <- paste0('<br>', out, '</br>')
+  out <- c(paste0('<h4>', sc_in, '</h4>'), out)
   
   return(out)
   
@@ -293,6 +358,8 @@ read_parms <- function(sc_in){
   
   out <- readLines(paste0('scenarios/', sc_in, '/GEM_InputFile'), warn = FALSE)
   out <- paste0('<br>', out, '</br>')
+  out <- c(paste0('<h4>', sc_in, '</h4>'), out)
+  
   return(out)
   
 }

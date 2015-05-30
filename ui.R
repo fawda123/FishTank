@@ -60,7 +60,7 @@ shinyUI(fluidPage(
             selectInput(inputId = 'var1',
               label = NULL,
               choices = labels_fun()$lngs, 
-              selected = 'nitrate', 
+              selected = 'Nitrate', 
               width = '600px'
             ),
                                    
@@ -74,7 +74,7 @@ shinyUI(fluidPage(
             selectInput(inputId = 'var2',
               label = NULL,
               choices = labels_fun()$lngs, 
-              selected = 'phosphate', 
+              selected = 'Phosphate', 
               width = '600px'
             ),
       
@@ -94,7 +94,7 @@ shinyUI(fluidPage(
             selectInput(inputId = 'var3',
               label = NULL,
               choices = labels_fun()$lngs, 
-              selected = 'phytoplankton abundance 1', 
+              selected = 'Phytoplankton Abundance 1', 
               width = '600px'
             ),
                                    
@@ -107,7 +107,7 @@ shinyUI(fluidPage(
             selectInput(inputId = 'var4',
               label = NULL,
               choices = labels_fun()$lngs, 
-              selected = 'oxygen', 
+              selected = 'Dissolved Oxygen', 
               width = '600px'
             ),
       
@@ -122,9 +122,10 @@ shinyUI(fluidPage(
     tabPanel("Scenario descriptions",
         
         h3('Scenario 1'),     
-        h4(textOutput("descrips1")),
+        htmlOutput("descrips1"),
+        HTML('<br></br>'),
         h3('Scenario 2'),
-        h4(textOutput("descrips2"))
+        htmlOutput("descrips2")
       
       ),
       
@@ -138,6 +139,7 @@ shinyUI(fluidPage(
         
         h3('Scenario 1'),   
         htmlOutput("initparms1"),
+        HTML('<br></br>'),
         h3('Scenario 2'),
         htmlOutput("initparms2")
         

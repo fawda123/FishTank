@@ -1,0 +1,5 @@
+set NO3 = 1 mg/L = 71 umol/L
+set PO4 = 4.4 (Redfield)
+set Si = 71 umol/L
+no zooplankton
+no air-water gas exchange

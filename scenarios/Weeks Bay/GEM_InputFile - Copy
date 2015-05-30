@@ -2,14 +2,14 @@
 
 !Simulation Specifics
 2005     1     1     18     0     0		!- starting time Yr, Mon, Day, Hr, Min, Sec
-2007    12    31     18     0     0		!- ending   time Yr, Mon, Day, Hr, Min, Sec
-300. 86400.0		!- dT (timestep, decimal secs); dT_out (output interval,decimal secs)
+2005    12    31     18     0     0		!- ending   time Yr, Mon, Day, Hr, Min, Sec
+300. 10800.0		!- dT (timestep, decimal secs); dT_out (output interval,decimal secs)
 0		        !- How cell Location is specified:0==long-lat 1==grid-units
 -92.39 29.03		!- Cell i,j coord (if grid-units) or longcent,latcent vals (if long-lat)
 
 !Switches in GEM
 1		!Which_OS: 0==iris, 1==sol, 2==other
-0 0 0 0 0 0 0	!Which_Fluxes: Toggle on(1) off(0): O2surf, DICsurf, SOD, MPB, Nutrient Exchange, CMAQ, Instant Remineralization
+1 1 0 0 0 0 0	!Which_Fluxes: Toggle on(1) off(0): O2surf, DICsurf, SOD, MPB, Nutrient Exchange, CMAQ, Instant Remineralization
 1		!Which_Temp: 1==Sigmoidal(Original), 2==Optimum Temp. Thresh., 3==Decrease at Thresh.
 1		!Which_Uptake: 1==Michaelis-Menten, 2==Geider (needs nfQs), 3==Roelke; picks the quota model for uptake
 1		!Which_NDGrowth: Nutrient dependent growth, 1==Droop, 2==Nyholm, 3==Flynn
