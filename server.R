@@ -8,6 +8,10 @@ library(dygraphs)
 library(xts)
 library(htmltools)
 
+# change this to FALSE to use preexisting results
+# otherwise results are creating running the model each time
+onfly <- TRUE
+
 # Define server logic required to generate and plot data
 shinyServer(function(input, output, session) {
   
@@ -25,13 +29,23 @@ shinyServer(function(input, output, session) {
     progress$set(message = 'FishTank in progress...')
     on.exit(progress$close())
     
-    # run models based on inputs
-    run_mod(scenario1, 'scenario1')
-    run_mod(scenario2, 'scenario2')
+    # run model on the fly 
+    if(onfly){
+      
+      # run models based on inputs
+      run_mod(scenario1, 'scenario1')
+      run_mod(scenario2, 'scenario2')
+      
+      # combine data from output, assign scenario names to those selected
+      data_format(scenario1, scenario2)
     
-    # combine data from output, assign scenario names to those selected
-    data_format(scenario1, scenario2)
-    
+    # otherwise use pre-existing data for faster widget
+    } else {
+      
+      data_format2(scenario1, scenario2)
+       
+    }
+      
   })
     
   # first variable plot

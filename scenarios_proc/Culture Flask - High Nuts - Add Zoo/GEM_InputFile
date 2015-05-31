@@ -1,0 +1,134 @@
+"13-Nov-2014 08:53:00"		!Code_ID: Identifier for run, appears in netCDF file
+
+!Simulation Specifics
+2005     1     1     18     0     0		!- starting time Yr, Mon, Day, Hr, Min, Sec
+2005    12    31     18     0     0		!- ending   time Yr, Mon, Day, Hr, Min, Sec
+3600. 86400.0		!- dT (timestep, decimal secs); dT_out (output interval,decimal secs)
+0		        !- How cell Location is specified:0==long-lat 1==grid-units
+-92.39 29.03		!- Cell i,j coord (if grid-units) or longcent,latcent vals (if long-lat)
+
+!Switches in GEM
+1		!Which_OS: 0==iris, 1==sol, 2==other
+0 0 0 0 0 0 0	!Which_Fluxes: Toggle on(1) off(0): O2surf, DICsurf, SOD, MPB, Nutrient Exchange, CMAQ, Instant Remineralization
+1		!Which_Temp: 1==Sigmoidal(Original), 2==Optimum Temp. Thresh., 3==Decrease at Thresh.
+1		!Which_Uptake: 1==Michaelis-Menten, 2==Geider (needs nfQs), 3==Roelke; picks the quota model for uptake
+1		!Which_NDGrowth: Nutrient dependent growth, 1==Droop, 2==Nyholm, 3==Flynn
+0		!Calibration: Print Calibration ascii files: 0=no, 1=yes
+1		!Out_1D: Print ascii out: 0=no, 1=yes	
+1		!atm_light_m: model switch, 1==SWtoPAR 2==Parairsea reduction, 3==sea surface refraction
+1		!uw_light_m: model switch, 1==IOP, 2==AOP
+1		!Which_Chla: Chlorophyll-a, 1==Kurtz regression, 2==Cloern Chl:C
+2		!P_vs_E_m: model switch for PE curve, 1==photoinhibition, 2==without, 3==nutrient dependent
+1		!Specific_Growth: 1==minimum, 2==product formulation, 3==light dependent
+1		!SolarRadKo: 0==Calculate Solar, 1==Read Solar Files
+1		!InitializeHow: 1==USER_input, 0==Regression Equations 
+
+!Optics
+0.146		!Kw: AOP, light attenuation due to water
+0.001		!Kcdom: AOP, light attenuation due to CDOM
+0.029		!Kspm: AOP, light attenuation due to SPM
+0.024		!Kc: AOP, light attenuation due to chla 
+0.4815		!PARairsea: convert surface PAR just under sea surface PAR 
+0.0375		!astar490: IOP absorption due to Chla
+0.015		!aw490: IOP absorption due to water
+0.1		!astarOMA: IOP absorption due to OMA
+0.1		!astarOMfp: IOP absorption due to OMfp
+0.1		!astarOMrp: IOP absorption due to OMrp
+0.1             !astarOMbc: IOP absorption due to OMbc
+0		!sink CDOM: sinking rate
+0.5		!weight_sfc_beam: Fraction of light beam above sea surface 
+
+!Temperature
+20 20 20 20 20 20 20 20	                          !Topt(nospA+nospG): Optimum temperature for growth(C)
+0.0035 0.0035 0.0035 0.0035 0.0035 0.0035 0.0035 0.0035	!KTg1(nospA+nospG): Effect of T below Topt(C^2)
+0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 	!KTg2(nospA+nospG): Effect of T above Topt(C^2)
+300 300 300 300 300 300 300 300	                        !Tref(nospA+nospG): Reference temperature(K)
+10000 10000 10000 10000 10000 10000 10000 10000	        !Ed_R(nospA+nospG): Slope of Arrhenius plot
+
+!Phytoplankton
+1 1 1 1 1 1                        !ediblevector: edibility vector
+1.12 1.12 1.12 1.12 1.12 1.12            !mumax: maximum growth rate
+3.97e-16 3.97e-16 3.97e-16 3.97e-16 3.97e-16 3.97e-16  !alpha: initial slope of the PE relationship
+7.9e-18 7.9e-18 7.9e-18 7.9e-18 7.9e-18 7.9e-18	       !beta: photoinhibition constant
+0.2 0.2 0.2 0.2 0.2 0.2		!respAp(nospA): phytoplankton respiration coefficient
+0.075 0.075 0.075 0.075 0.075 0.075	                !respApDark(nospA): phytoplankton basal respiration coefficient 
+1.5307e-10 1.5307e-10 1.5307e-10 1.5307e-10 1.5307e-10 1.5307e-10  !QminN: minimum N cell-quota
+1.0686e-11 1.0686e-11 1.0686e-11 1.0686e-11 1.0686e-11 1.0686e-11  !QminP: minimum P cell-quota
+6.8505e-09 6.8505e-09 6.8505e-09 6.8505e-09 6.8505e-09 6.8505e-09  !QmaxN: maximum N cell-quota
+4.2815e-10 4.2815e-10 4.2815e-10 4.2815e-10 4.2815e-10 4.2815e-10  !QmaxP: maximum P cell-quota
+1.1333 1.1333 1.1333 1.1333 1.1333 1.1333		!knA: half-saturation constant for N 
+0.51422 0.51422 0.51422 0.51422 0.51422 0.51422		!kPA: half-saturation constant for P
+1.1333 1.1333 1.1333 1.1333 1.1333 1.1333		!KSiA: half-saturation constant (mmol/m3) for Si uptake 
+5 5 5 5 5 5	        !KQnA: Qn constant for Flynn nutrient dependent growth model
+0.2 0.2 0.2 0.2 0.2 0.2	!KQpA: Qp constant for Flynn nutrient dependent growth model 
+1		!nfQs: exponent for Geider nutrient uptake model 
+1.3252e-09 1.3252e-09 1.3252e-09 1.3252e-09 1.3252e-09 1.3252e-09  !pmaxN: N-uptake rate measured at umax
+4.0749e-10 4.0749e-10 4.0749e-10 4.0749e-10 4.0749e-10 4.0749e-10  !pmaxP: P-uptake rate measured at umax
+1.3252e-09 1.3252e-09 1.3252e-09 1.3252e-09 1.3252e-09 1.3252e-09  !pmaxSi: Si-uptake rate measured at umax
+1 1 1 1 1 1		!aN(nospA): coefficient for non-limiting nutrient
+513 513 513 513 513 513	!VOLcell: phytoplankton volume/cell
+4.53843e-08 4.53843e-08 4.53843e-08 4.53843e-08 4.53843e-08 4.53843e-08	!Carcell: phytoplankton carbon/cell
+7e+07 7e+07 7e+07 7e+07 7e+07 7e+07 !Athresh: Phytoplankton threshold for grazing, is multiplied by VOLcell 
+0.2 0.2 0.2 0.2 0.2 0.2		!sink A1:A6  sinking rate of phytoplankton cells
+0.1 0.1 0.1 0.1 0.1 0.1		!MAin(nospA): Initial constant for mortality coefficient iMA1:6
+
+!Zooplankton
+0.4 0.4		!efficG(nospG): assimilation efficiency as a fraction of ingestion
+0.25 0		!slop(nospG): proportion of grazed phytoplankton lost to sloppy feeding
+2.98e+07 67400		!VOLcellG(nospG): zooplankton volume/individual
+0.0003129 7.077e-07	!CarcellG(nospG): zooplankton carbon/individual
+6.95333e-05 1.57267e-07	!qnG(nospG): zooplankton nitrogen/individual
+3.76988e-06 8.52651e-09		!qpG(nospG): zooplankton phosphorus/individual
+1.12e+12 1.12e+12		!Ka(nospG): half saturation coefficient for grazing
+0.2 0.3		!respGp(nospG): Zooplankton group growth-dependent respiration factor
+0.1 0.416		!respGb(nospG): Zooplankton group biomass-dependent respiration factor
+9.45e+08 2.98e+07		!umaxG(nospG): maximum growth rate of zooplankton
+0.001 0.001		!zetad(nospG): Zooplankton mortality constant for quadratic mortality
+
+!Organic Matter
+50		!KG1: OM1 turnover for OMA and OMfp
+50		!KG2: OM2 turnover for OMA and OMfp
+1		!KG1_rp: OM1 turnover rate for riverine
+1		!KG2_rp: OM2 turnover rate for riverine
+1               !KG1_bc: OM1 turnover rate for initial and bc
+1               !KG2_bc: OM2 turnover rate for initial and bc
+5		!k11: rate constant for nitrification
+10		!KO2: rate constant for O2 utilization
+10		!KstarO2: inhibition constant for nitrification
+10		!KNO3: rate constant for NO3 (denitrification)
+395		!pCO2: atmospheric CO2 
+8.25		!pH: value for pH in the model 
+51		!stoich_x1rp: C:P stoichiometry of OM1_rp
+4.5		!stoich_y1rp: N:P stoichiometry of OM1_rp
+700		!stoich_x2rp: C:P stoichiometry of OM2_rp
+50		!stoich_y2rp: N:P stoichiometry of OM2_rp
+106             !stoich_x1bc: C:P stoichiometry of OM1_bc
+16              !stoich_y1bc: N:P stoichiometry of OM1_bc
+106             !stoich_x2bc: C:P stoichiometry of OM2_bc
+16              !stoich_y2bc: N:P stoichiometry of OM2_bc
+10		!sink OM1_A1: sinking rate
+1		!sink OM2_A1: sinking rate
+10		!sink OM1_fp: sinking rate
+1		!sink OM2_fp: sinking rate
+10		!sink OM1_rp: sinking rate
+1		!sink OM2_rp: sinking rate
+10              !sink OM1_bc: sinking rate
+1               !sink OM2_bc: sinking rate
+0.01		!Kcdom_decay: decay rate of CDOM, 1/day
+
+!River Loads - used in 3D only
+1		!rcNO3  - factor multiplying NO3 river load
+1		!rcNH4  - factor multiplying NH4 river load
+1		!rcPO4  - factor multiplying PO4 river load
+1		!rcSi   - factor multiplying Si river load
+
+!Other including Boundary Conditions
+1		!Which_VMix: 0==No VMixing, Other==Yes VMixing   
+1		!KH_coeff: multiplying factor for KH in VMixing  
+0		!Which_Outer_BC: 0==Salinity, 1==zero nutrients at lateral bc, 2=zero nutrients lateral and open ocean, 5==no flow boundaries
+1 0 0 		!Multipliers for OM_bc at initial conditions and for boundary conditions, lateral and shelf
+106 16		!Stoich_x1_init, Stoich_y1_init: Initial stoichiometry of all OM1_A
+106 16		!Stoich_x2_init, Stoich_y2_init: Initial stoichiometry of all OM2_A
+106 16		!Stoich_x1fp_init, Stoich_y1fp_init: Initial stoichiometry of all OM1_fp
+106 16		!Stoich_x2fp_init, Stoich_y2fp_init: Initial stoichiometry of all OM2_fp
+92000		!KG_bot, turnover rate for k=20 if Instant Remineralization is used

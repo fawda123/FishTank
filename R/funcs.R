@@ -243,7 +243,7 @@ get_steps <- function(sc_in){
   
 }
 
-# format data for plotting, both scenarios
+# format data for plotting, both scenarios, used with results on the fly
 # sc_in1 and sc_in2 is to relabel the model outputs for the legend 
 data_format <- function(sc_in1, sc_in2, ...){
 
@@ -272,6 +272,52 @@ data_format <- function(sc_in1, sc_in2, ...){
 
     # get timestep info for the scenario
     steps <- get_steps(get(paste0('sc_in', gsub('scenario', '', dir))))
+    out$step <- out$step * steps[1]
+      
+    out_all[[dir]] <- out
+    
+  }
+
+  # combine results from each scenario
+  out_all <- melt(out_all, id.vars = names(out_all[[1]]))
+  names(out_all)[names(out_all) %in% 'L1'] <- 'scenario'
+  out_all$scenario <- factor(out_all$scenario, labels = c(sc_in1, sc_in2))
+  out_all$state <- factor(out_all$state, levels = states)
+
+  return(out_all)
+  
+}
+
+# format data for plotting, for pre-allocated output
+# sc_in1 and sc_in2 is to relabel the model outputs for the legend 
+data_format2 <- function(sc_in1, sc_in2, ...){
+
+  # state variables names and location of model results for each scenario
+  states <- labels_fun()$shrt
+  dirs <- dir('scenarios_proc')
+  dirs <- dirs[dirs %in% c(sc_in1, sc_in2)]
+  
+  # empty vector for results
+  out_all <- vector('list', length = length(dirs))
+  names(out_all) <- dirs
+  
+  # import results for each directory
+  for(dir in dirs){
+    
+    # import the data
+    fls <- vector("list", length = length(states))
+    names(fls) <- states
+    for(fl in states) 
+      fls[[fl]] <- read.table(paste0('scenarios_proc/', dir, '/', fl, '.txt'))[, c(1, 2)]
+    
+    # format data for plotting
+    out <- do.call('rbind', fls)
+    out$state <- gsub('\\.[0-9]*$', '', row.names(out))
+    row.names(out) <- 1:nrow(out)
+    names(out) <- c('step', 'val', 'state')
+
+    # get timestep info for the scenario
+    steps <- get_steps(dir)
     out$step <- out$step * steps[1]
       
     out_all[[dir]] <- out
