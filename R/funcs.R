@@ -345,7 +345,7 @@ data_format2 <- function(sc_in1, sc_in2, ...){
 form_axis <- function(toplo, varsel){
   
   # phyto
-  if(grepl('A[0-9]', varsel)){
+  if(grepl('^A[0-9]', varsel)){
     toplo$val <- log10(toplo$val)
   }
  

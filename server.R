@@ -10,7 +10,7 @@ library(htmltools)
 
 # change this to FALSE to use preexisting results
 # otherwise results are created running the model each time
-onfly <- TRUE
+onfly <- FALSE
 
 # Define server logic required to generate and plot data
 shinyServer(function(input, output, session) {
