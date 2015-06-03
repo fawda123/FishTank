@@ -9,7 +9,7 @@ library(xts)
 library(htmltools)
 
 # change this to FALSE to use preexisting results
-# otherwise results are creating running the model each time
+# otherwise results are created running the model each time
 onfly <- TRUE
 
 # Define server logic required to generate and plot data
@@ -63,7 +63,7 @@ shinyServer(function(input, output, session) {
   output$var2plot <- renderDygraph({
      
     alldat <- runmod()
-    
+
     # data to plot
     varsel <- input$var2
     plo_fun(varsel, alldat)

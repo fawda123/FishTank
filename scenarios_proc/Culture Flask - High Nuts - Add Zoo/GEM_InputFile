@@ -3,7 +3,7 @@
 !Simulation Specifics
 2005     1     1     18     0     0		!- starting time Yr, Mon, Day, Hr, Min, Sec
 2005    12    31     18     0     0		!- ending   time Yr, Mon, Day, Hr, Min, Sec
-3600. 86400.0		!- dT (timestep, decimal secs); dT_out (output interval,decimal secs)
+300. 86400.0		!- dT (timestep, decimal secs); dT_out (output interval,decimal secs)
 0		        !- How cell Location is specified:0==long-lat 1==grid-units
 -92.39 29.03		!- Cell i,j coord (if grid-units) or longcent,latcent vals (if long-lat)
 

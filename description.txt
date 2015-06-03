@@ -1,3 +1,8 @@
-set initial nutrient and organic matter based on observations from a eutrophic estuary (Weeks Bay, Alabama)
-Zooplankton On
-Physics On
+set NO3 = 1 mg/L = 71 umol/L
+set PO4 = 4.4 (Redfield)
+set Si = 71 umol/L
+changed G1 and G2 from 1 --> 100 ind/m3
+changed 9.45e+07 2.98e+04		!umaxG(nospG): maximum growth rate of zooplankton
+to 
+9.45e+08 2.98e+07		!umaxG(nospG): maximum growth rate of zooplankton
+no air-water gas exchange

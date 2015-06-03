@@ -9,7 +9,7 @@
 
 !Switches in GEM
 1		!Which_OS: 0==iris, 1==sol, 2==other
-1 1 0 0 0 0 0	!Which_Fluxes: Toggle on(1) off(0): O2surf, DICsurf, SOD, MPB, Nutrient Exchange, CMAQ, Instant Remineralization
+0 0 0 0 0 0 0	!Which_Fluxes: Toggle on(1) off(0): O2surf, DICsurf, SOD, MPB, Nutrient Exchange, CMAQ, Instant Remineralization
 1		!Which_Temp: 1==Sigmoidal(Original), 2==Optimum Temp. Thresh., 3==Decrease at Thresh.
 1		!Which_Uptake: 1==Michaelis-Menten, 2==Geider (needs nfQs), 3==Roelke; picks the quota model for uptake
 1		!Which_NDGrowth: Nutrient dependent growth, 1==Droop, 2==Nyholm, 3==Flynn
