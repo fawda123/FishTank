@@ -390,7 +390,7 @@ plo_fun <- function(varsel, alldat){
   # make xts
   toplo <- select(toplo, -state)
   toplo <- spread(toplo, scenario, val)
-  step <- as.POSIXct(toplo$step, origin = '2000-01-02') 
+  step <- as.POSIXct(toplo$step, origin = '2005-01-02') 
   toplo <- as.matrix(toplo[, -1])
   toplo <- as.xts(toplo, order.by = step)
 
