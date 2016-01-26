@@ -9,8 +9,8 @@
 
 !Switches in GEM
 1		!Which_OS: 0==iris, 1==sol, 2==other
-0 0 0 0 0 0 0	!Which_Fluxes: Toggle on(1) off(0): O2surf, DICsurf, SOD, MPB, Nutrient Exchange, CMAQ, Instant Remineralization
-1		!Which_Temp: 1==Sigmoidal(Original), 2==Optimum Temp. Thresh., 3==Decrease at Thresh.
+1 1 0 0 0 0 0	!Which_Fluxes: Toggle on(1) off(0): O2surf, DICsurf, SOD, MPB, Nutrient Exchange, CMAQ, Instant Remineralization
+2		!Which_Temp: 1==Sigmoidal(Original), 2==Optimum Temp. Thresh., 3==Decrease at Thresh.
 1		!Which_Uptake: 1==Michaelis-Menten, 2==Geider (needs nfQs), 3==Roelke; picks the quota model for uptake
 1		!Which_NDGrowth: Nutrient dependent growth, 1==Droop, 2==Nyholm, 3==Flynn
 0		!Calibration: Print Calibration ascii files: 0=no, 1=yes
@@ -39,35 +39,35 @@
 0.5		!weight_sfc_beam: Fraction of light beam above sea surface 
 
 !Temperature
-20 20 20 20 20 20 20 20	                          !Topt(nospA+nospG): Optimum temperature for growth(C)
-0.0035 0.0035 0.0035 0.0035 0.0035 0.0035 0.0035 0.0035	!KTg1(nospA+nospG): Effect of T below Topt(C^2)
-0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 	!KTg2(nospA+nospG): Effect of T above Topt(C^2)
+22 22 17 17 26 29 22 26   !Topt(nospA+nospG): Optimum temperature for growth(C)
+0.0035 0.0035 0.0035 0.0035 0.0035 0.0035 0.0035 0.0035 	!KTg1(nospA+nospG): Effect of T below Topt(C^2)
+0.03 0.04 0.02 0.03 0.06 0.06 0.03 0.06 	!KTg2(nospA+nospG): Effect of T above Topt(C^2)
 300 300 300 300 300 300 300 300	                        !Tref(nospA+nospG): Reference temperature(K)
 10000 10000 10000 10000 10000 10000 10000 10000	        !Ed_R(nospA+nospG): Slope of Arrhenius plot
 
 !Phytoplankton
 1 1 1 1 1 1                        !ediblevector: edibility vector
-1.12 1.12 1.12 1.12 1.12 1.12            !mumax: maximum growth rate
+0.41 0.76 0.34 1.12 1.10 1.72            !mumax: maximum growth rate
 3.97e-16 3.97e-16 3.97e-16 3.97e-16 3.97e-16 3.97e-16  !alpha: initial slope of the PE relationship
 7.9e-18 7.9e-18 7.9e-18 7.9e-18 7.9e-18 7.9e-18	       !beta: photoinhibition constant
 0.2 0.2 0.2 0.2 0.2 0.2		!respAp(nospA): phytoplankton respiration coefficient
-0.075 0.075 0.075 0.075 0.075 0.075	                !respApDark(nospA): phytoplankton basal respiration coefficient 
-1.5307e-10 1.5307e-10 1.5307e-10 1.5307e-10 1.5307e-10 1.5307e-10  !QminN: minimum N cell-quota
-1.0686e-11 1.0686e-11 1.0686e-11 1.0686e-11 1.0686e-11 1.0686e-11  !QminP: minimum P cell-quota
-6.8505e-09 6.8505e-09 6.8505e-09 6.8505e-09 6.8505e-09 6.8505e-09  !QmaxN: maximum N cell-quota
-4.2815e-10 4.2815e-10 4.2815e-10 4.2815e-10 4.2815e-10 4.2815e-10  !QmaxP: maximum P cell-quota
-1.1333 1.1333 1.1333 1.1333 1.1333 1.1333		!knA: half-saturation constant for N 
-0.51422 0.51422 0.51422 0.51422 0.51422 0.51422		!kPA: half-saturation constant for P
-1.1333 1.1333 1.1333 1.1333 1.1333 1.1333		!KSiA: half-saturation constant (mmol/m3) for Si uptake 
+0.04 0.08 0.03 0.11 0.11 0.17	                !respApDark(nospA): phytoplankton basal respiration coefficient 
+6.08e-9 6.32e-10 1.27e-8 1.53e-10 1.62e-10 3.21e-11 !QminN: minimum N cell-quota
+6.19e-10 5.10e-11 1.39e-9 1.07e-11 1.14e-11 1.91e-12 !QminP: minimum P cell-quota
+2.04e-7 2.53e-8 4.01e-7 6.85e-9 7.22e-9 1.62e-9 !QmaxN: maximum N cell-quota
+1.28e-8 1.58e-9 2.50e-8 4.28e-10 4.51e-10 1.02e-10 !QmaxP: maximum P cell-quota
+4.51 1.93 5.93 1.13 1.16 0.63	!knA: half-saturation constant for N 
+2.86 1.00 4.02 0.51 0.53 0.25	!kPA: half-saturation constant for P
+4.51 1.93 5.93 1.13 1.16 0.63		!KSiA: half-saturation constant (mmol/m3) for Si uptake 
 5 5 5 5 5 5	        !KQnA: Qn constant for Flynn nutrient dependent growth model
 0.2 0.2 0.2 0.2 0.2 0.2	!KQpA: Qp constant for Flynn nutrient dependent growth model 
 1		!nfQs: exponent for Geider nutrient uptake model 
-1.3252e-09 1.3252e-09 1.3252e-09 1.3252e-09 1.3252e-09 1.3252e-09  !pmaxN: N-uptake rate measured at umax
-4.0749e-10 4.0749e-10 4.0749e-10 4.0749e-10 4.0749e-10 4.0749e-10  !pmaxP: P-uptake rate measured at umax
-1.3252e-09 1.3252e-09 1.3252e-09 1.3252e-09 1.3252e-09 1.3252e-09  !pmaxSi: Si-uptake rate measured at umax
+4.10e-8 4.97e-9 8.11e-8 1.33e-9 1.40e-9 3.09e-10 !pmaxN: N-uptake rate measured at umax
+2.68e-8 2.04e-9 6.15e-8 4.07e-10 4.34e-10 6.91e-11 !pmaxP: P-uptake rate measured at umax
+4.10e-8 4.97e-9 8.11e-8 1.33e-9 1.40e-9 3.09e-10 !pmaxSi: Si-uptake rate measured at umax
 1 1 1 1 1 1		!aN(nospA): coefficient for non-limiting nutrient
-513 513 513 513 513 513	!VOLcell: phytoplankton volume/cell
-4.53843e-08 4.53843e-08 4.53843e-08 4.53843e-08 4.53843e-08 4.53843e-08	!Carcell: phytoplankton carbon/cell
+33693 2569 77429 513 547 87 	!VOLcell: phytoplankton volume/cell
+1.35e-6 1.68e-7 2.65e-6 4.54e-8 4.78e-8 1.08e-8 !Carcell: phytoplankton carbon/cell
 7e+07 7e+07 7e+07 7e+07 7e+07 7e+07 !Athresh: Phytoplankton threshold for grazing, is multiplied by VOLcell 
 0.2 0.2 0.2 0.2 0.2 0.2		!sink A1:A6  sinking rate of phytoplankton cells
 0.1 0.1 0.1 0.1 0.1 0.1		!MAin(nospA): Initial constant for mortality coefficient iMA1:6

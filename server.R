@@ -41,7 +41,7 @@ shinyServer(function(input, output, session) {
     
     # otherwise use pre-existing data for faster widget
     } else {
-      
+
       data_format2(scenario1, scenario2)
        
     }

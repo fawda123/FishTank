@@ -28,7 +28,7 @@ shinyUI(fluidPage(
       selectInput(inputId = 'scenario1', 
         label = h4('Scenario one'),
         choices = scenarios,
-        selected = scenarios[1]
+        selected = scenarios[4]
       )
     ),
     
@@ -36,7 +36,7 @@ shinyUI(fluidPage(
       selectInput(inputId = 'scenario2', 
         label = h4('Scenario two'),
         choices = scenarios,
-        selected = scenarios[2]
+        selected = scenarios[3]
       )
     )
    

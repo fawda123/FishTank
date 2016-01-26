@@ -300,9 +300,8 @@ data_format2 <- function(sc_in1, sc_in2, ...){
 
   # state variables names and location of model results for each scenario
   states <- labels_fun()$shrt
-  dirs <- dir('scenarios_proc')
-  dirs <- dirs[dirs %in% c(sc_in1, sc_in2)]
-  
+  dirs <- c(sc_in1, sc_in2)
+
   # empty vector for results
   out_all <- vector('list', length = length(dirs))
   names(out_all) <- dirs
@@ -333,7 +332,7 @@ data_format2 <- function(sc_in1, sc_in2, ...){
   # combine results from each scenario
   out_all <- melt(out_all, id.vars = names(out_all[[1]]))
   names(out_all)[names(out_all) %in% 'L1'] <- 'scenario'
-  out_all$scenario <- factor(out_all$scenario, labels = c(sc_in1, sc_in2))
+  out_all$scenario <- factor(out_all$scenario, levels = c(sc_in1, sc_in2), labels = c(sc_in1, sc_in2))
   out_all$state <- factor(out_all$state, levels = states)
 
   return(out_all)
@@ -386,7 +385,7 @@ plo_fun <- function(varsel, alldat){
   
   # change label format (doesn't work for dygraphs)
   ylab <- expr_fun(varsel)
-  
+
   # make xts
   toplo <- select(toplo, -state)
   toplo <- spread(toplo, scenario, val)
